@@ -18,6 +18,10 @@ namespace DataAccessLayer
                 .Entity<User>()
                 .HasIndex(f => f.Email)
                 .IsUnique();
+            modelBuilder
+                   .Entity<User>()
+                   .HasIndex(f => f.Name)
+                   .IsUnique();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder.UseNpgsql(b => b.MigrationsAssembly("Api"));
