@@ -13,6 +13,7 @@ namespace Api
                 .ForMember(d => d.BirthDate, m => m.MapFrom(s => s.BirthDate.UtcDateTime))
                 ;
             CreateMap<DataAccessLayer.Entities.User, Models.UserModel>();
+            CreateMap<DataAccessLayer.Entities.Avatar, Models.AttachModel>();
         }
     }
 }
