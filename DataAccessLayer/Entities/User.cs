@@ -13,5 +13,7 @@ namespace DataAccessLayer.Entities
         public string Email { get; set; } = "empty";
         public string PasswordHash { get; set; } = "empty";
         public DateTimeOffset BirthDate { get; set; }
+
+        public virtual ICollection<UserSession>? Sessions { get; set; }
     }
 }

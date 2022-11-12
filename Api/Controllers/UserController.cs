@@ -26,7 +26,6 @@ namespace Api.Controllers
             if (await _userService.CheckUserExist(model.Email))
                 throw new Exception("user is exist");
             await _userService.CreateUser(model);
-
         }
         [HttpGet]
         [Authorize]
