@@ -56,7 +56,7 @@ internal class Program
         builder.Services.AddDbContext<DataAccessLayer.DataContext>(options =>
         {
             options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSql"), sql => { });
-        });
+        }, contextLifetime: ServiceLifetime.Scoped);
 
         builder.Services.AddAutoMapper(typeof(MapperProfile).Assembly);
 
