@@ -1,6 +1,7 @@
 using Api;
 using Api.Configs;
 using Api.Services;
+using Api.Middlewares;
 using DataAccessLayer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -62,6 +63,7 @@ internal class Program
         builder.Services.AddAutoMapper(typeof(MapperProfile).Assembly);
 
         builder.Services.AddScoped<UserService>();
+        builder.Services.AddScoped<AuthService>();
 
         builder.Services.AddAuthentication(o =>
         {

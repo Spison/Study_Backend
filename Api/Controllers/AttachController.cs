@@ -39,15 +39,7 @@ namespace Api.Controllers
             }
             else
             {
-                if (fileinfo.Directory == null)
-                {
-                    throw new Exception("temp is null");
-                }
-                else
-                if (!fileinfo.Directory.Exists)
-                {
-                    fileinfo.Directory?.Create();
-                }
+               
 
                 using (var stream = System.IO.File.Create(newPath))
                 {
