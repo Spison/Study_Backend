@@ -1,6 +1,8 @@
-﻿using Api.Models;
+﻿
 using Api.Consts;
 using Api.Services;
+using Api.Models.User;
+using Api.Models.Attach;
 using Common.Extentions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

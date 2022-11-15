@@ -1,4 +1,5 @@
-﻿using Api.Models;
+﻿using Api.Models.Attach;
+using Api.Models.User;
 using Api.Configs;
 using Common;
 using AutoMapper;
@@ -54,7 +55,7 @@ namespace Api.Services
         {
             var user = await GetUserById(id);
 
-            return new UserAvatarModel(_mapper.Map<UserModel>(user), _linkGenerator);
+            return new UserAvatarModel(_mapper.Map<UserModel>(user), user.Avatar == null ? null : _linkGenerator);
 
         }
         public async Task<IEnumerable<UserAvatarModel>> GetUsers()
@@ -103,7 +104,14 @@ namespace Api.Services
             var user = await _context.Users.Include(x => x.Avatar).FirstOrDefaultAsync(x => x.Id == userId);
             if (user != null)
             {
-                var avatar = new Avatar { Author = user, MimeType = meta.MimeType, FilePath = filePath, Name = meta.Name, Size = meta.Size };
+                var avatar = new Avatar 
+                { 
+                    Author = user, 
+                    MimeType = meta.MimeType, 
+                    FilePath = filePath, 
+                    Name = meta.Name, 
+                    Size = meta.Size 
+                };
                 user.Avatar = avatar;
                 await _context.SaveChangesAsync();
             }

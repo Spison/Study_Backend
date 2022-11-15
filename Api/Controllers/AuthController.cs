@@ -1,5 +1,6 @@
-﻿using Api.Models;
-using Api.Services;
+﻿using Api.Services;
+using Api.Models.Token;
+using Api.Models.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
