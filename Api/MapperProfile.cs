@@ -16,13 +16,16 @@ namespace Api
                 .ForMember(d => d.BirthDate, m => m.MapFrom(s => s.BirthDate.UtcDateTime))
                 ;
             CreateMap<DataAccessLayer.Entities.User, UserModel>();
+            CreateMap<DataAccessLayer.Entities.User, UserAvatarModel>();
 
             CreateMap<DataAccessLayer.Entities.Avatar, AttachModel>();
 
             CreateMap<DataAccessLayer.Entities.PostContent, AttachModel>();
+            CreateMap<DataAccessLayer.Entities.PostContent, AttachExternalModel>();
 
-            CreateMap<MetadataModel, DataAccessLayer.Entities.PostContent>();
-            CreateMap<MetaWithPath, DataAccessLayer.Entities.PostContent>();
+            CreateMap<CreatePostRequest, CreatePostModel>();
+            CreateMap<MetadataModel, MetadataLinkModel>();
+            CreateMap<MetadataLinkModel, DataAccessLayer.Entities.PostContent>();
             CreateMap<CreatePostModel, DataAccessLayer.Entities.Post>()
                 .ForMember(d => d.PostContents, m => m.MapFrom(s => s.Contents))
                 .ForMember(d => d.Created, m => m.MapFrom(s => DateTime.UtcNow))
