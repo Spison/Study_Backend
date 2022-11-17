@@ -1,51 +1,34 @@
-﻿
-using Api.Consts;
-using Api.Services;
-using Api.Models.User;
+﻿using Api.Consts;
+using Api.Exceptions;
 using Api.Models.Attach;
+using Api.Models.User;
+using Api.Services;
 using Common.Extentions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 
 namespace Api.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize]
+
+    [ApiExplorerSettings(GroupName = "Api")]
     public class UserController : ControllerBase
     {
         private readonly UserService _userService;
-        public UserController(UserService userService)
+
+        public UserController(UserService userService, LinkGeneratorService links)
         {
             _userService = userService;
-            if (userService != null)
-                _userService.SetLinkGenerator(x =>
-                Url.ControllerAction<AttachController>(nameof(AttachController.GetUserAvatar), new
-                {
-                    userId = x.Id,
-                }));
-        }
 
-
-        [HttpGet]
-        public async Task<IEnumerable<UserAvatarModel>> GetUsers() => await _userService.GetUsers();
-
-        [HttpGet]
-        public async Task<UserAvatarModel> GetCurrentUser()
-        {
-            var userId = User.GetClaimValue<Guid>(ClaimNames.Id);
-            if (userId != default)
+            links.LinkAvatarGenerator = x =>
+            Url.ControllerAction<AttachController>(nameof(AttachController.GetUserAvatar), new
             {
-
-                return await _userService.GetUser(userId);
-            }
-            else
-                throw new Exception("you are not authorized");
-
+                userId = x.Id,
+            });
         }
 
-        //Аттачи, их переместить в будущем
+
         [HttpPost]
         public async Task AddAvatarToUser(MetadataModel model)
         {
@@ -69,11 +52,29 @@ namespace Api.Controllers
             }
             else
                 throw new Exception("you are not authorized");
-
         }
 
-       
 
-       
+        [HttpGet]
+        public async Task<IEnumerable<UserAvatarModel>> GetUsers() => await _userService.GetUsers();
+
+        [HttpGet]
+        public async Task<UserAvatarModel> GetCurrentUser()
+        {
+            var userId = User.GetClaimValue<Guid>(ClaimNames.Id);
+            if (userId != default)
+            {
+
+                return await _userService.GetUser(userId);
+            }
+            else
+                throw new Exception("you are not authorized");
+
+        }
+        [HttpGet]
+        public async Task<UserAvatarModel> GetUserById(Guid userId)
+        {
+            return await _userService.GetUser(userId);
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace Api.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "Api")]
     public class AttachController : ControllerBase
     {
         private readonly PostService _postService;
@@ -31,20 +32,23 @@ namespace Api.Controllers
             }
             return res;
         }
+
+
         [HttpGet]
         [Route("{postContentId}")]
         public async Task<FileStreamResult> GetPostContent(Guid postContentId, bool download = false)
             => RenderAttach(await _postService.GetPostContent(postContentId), download);
+
 
         [HttpGet]
         [Route("{userId}")]
         public async Task<FileStreamResult> GetUserAvatar(Guid userId, bool download = false)
             => RenderAttach(await _userService.GetUserAvatar(userId), download);
 
+
         [HttpGet]
         public async Task<FileStreamResult> GetCurentUserAvatar(bool download = false)
-           => await GetUserAvatar(User.GetClaimValue<Guid>(ClaimNames.Id), download);
-
+            => await GetUserAvatar(User.GetClaimValue<Guid>(ClaimNames.Id), download);
 
 
 
@@ -69,8 +73,6 @@ namespace Api.Controllers
             }
             else
             {
-               
-
                 using (var stream = System.IO.File.Create(newPath))
                 {
                     await file.CopyToAsync(stream);
@@ -79,6 +81,7 @@ namespace Api.Controllers
                 return meta;
             }
         }
+
         private FileStreamResult RenderAttach(AttachModel attach, bool download)
         {
             var fs = new FileStream(attach.FilePath, FileMode.Open);

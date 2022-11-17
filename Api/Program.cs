@@ -1,4 +1,4 @@
-using Api;
+using Api.Mapper;
 using Api.Configs;
 using Api.Services;
 using Api.Middlewares;
@@ -53,6 +53,8 @@ internal class Program
                     new List<string>()
                 }
             });
+            c.SwaggerDoc("Auth", new OpenApiInfo { Title = "Auth" });
+            c.SwaggerDoc("Api", new OpenApiInfo { Title = "Api" });
         });
 
         builder.Services.AddDbContext<DataAccessLayer.DataContext>(options =>
@@ -66,6 +68,7 @@ internal class Program
         builder.Services.AddScoped<AuthService>();
 
         builder.Services.AddScoped<PostService>();
+        builder.Services.AddScoped<LinkGeneratorService>();
         builder.Services.AddAuthentication(o =>
         {
             o.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -110,7 +113,11 @@ internal class Program
         //if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
-            app.UseSwaggerUI();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("Api/swagger.json", "Api");
+                c.SwaggerEndpoint("Auth/swagger.json", "Auth");
+            });
         }
 
         app.UseHttpsRedirection();
@@ -118,6 +125,7 @@ internal class Program
         app.UseAuthentication();
         app.UseAuthorization();
         app.UseTokenValidator();
+        app.UseGlobalErrorWrapper();
         app.MapControllers();
 
         app.Run();
