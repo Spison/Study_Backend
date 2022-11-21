@@ -1,6 +1,7 @@
 ﻿using Api.Consts;
 using Api.Models.Attach;
 using Api.Models.Post;
+using Api.Models.Comment;
 using Api.Services;
 using Common.Extentions;
 using DataAccessLayer.Entities;
@@ -44,5 +45,24 @@ namespace Api.Controllers
             }
             await _postService.CreatePost(request);
         }
+        [HttpPost]
+        public async Task CreateComment(CreateCommentRequest request)
+        {
+            if (!request.AuthorId.HasValue)
+            {
+                var userId = User.GetClaimValue<Guid>(ClaimNames.Id);
+                if (userId == default)
+                    throw new Exception("Not Authorize");
+                request.AuthorId = userId;
+            }
+            await _postService.CreateComment(request);
+        }
+        [HttpGet]
+        public async Task<List<CommentModel>> GetComments(Guid postId) 
+            => await _postService.GetComments(postId);
+        //[HttpGet]
+        //public async Task<List<CommentModel>> GetComment(Guid postId)
+        //    => await _postService.GetComment(postId);
+
     }
 }

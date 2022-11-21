@@ -3,6 +3,7 @@ using Api.Exceptions;
 using Api.Models.Attach;
 using Api.Models.Post;
 using Api.Models.User;
+using Api.Models.Comment;
 using AutoMapper;
 using DataAccessLayer;
 using DataAccessLayer.Entities;
@@ -25,7 +26,6 @@ namespace Api.Services
         public async Task CreatePost(CreatePostRequest request)
         {
             var model = _mapper.Map<CreatePostModel>(request);
-
             model.Contents.ForEach(x =>
             {
                 x.AuthorId = model.AuthorId;
@@ -44,14 +44,9 @@ namespace Api.Services
                     File.Move(tempFi.FullName, x.FilePath, true);
                 }
             });
-
-
-
-
             var dbModel = _mapper.Map<Post>(model);
             await _context.Posts.AddAsync(dbModel);
             await _context.SaveChangesAsync();
-
         }
 
         public async Task<List<PostModel>> GetPosts(int skip, int take)
@@ -85,5 +80,49 @@ namespace Api.Services
 
             return _mapper.Map<AttachModel>(res);
         }
+        public async Task CreateComment(CreateCommentRequest request)
+        {
+            var model = _mapper.Map<CreateCommentModel>(request);
+            model.CommentText = request.CommentText;
+            model.Id = Guid.NewGuid();
+            //model.AuthorId=request.AuthorId;
+            
+
+            var dbModel = _mapper.Map<Comment>(model);
+            await _context.Comments.AddAsync(dbModel);
+            await _context.SaveChangesAsync();
+        }
+        public async Task <CommentModel> GetComment(Guid postId)
+        {
+            var comment = await _context.Comments
+                .Include(x => x.Author).ThenInclude(x => x.Avatar)
+                .Where(x => x.PostId == postId)
+                .Select(x => _mapper.Map<CommentModel>(x))
+                .FirstOrDefaultAsync();
+                ;
+            if (comment == null)
+                throw new PostNotFoundException();
+            return comment;
+        }
+        public async Task<List<CommentModel>> GetComments(Guid postId)
+        {
+            var comments = new List<CommentModel>(); //Костыльный вариант, стоит улучшить
+            foreach (var comment in _context.Comments)
+            {
+                if (comment.PostId == postId)
+                    comments.Add(_mapper.Map<CommentModel>(comment));
+            }
+
+            if (comments == null)
+                throw new PostNotFoundException();
+            return comments;
+        }
     }
 }
+/*
+ var model = _mapper.Map<CreatePostModel>(request);
+
+            
+            var dbModel = _mapper.Map<Post>(model);
+            await _context.Posts.AddAsync(dbModel);
+            await _context.SaveChangesAsync();*/

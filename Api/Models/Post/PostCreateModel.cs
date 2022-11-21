@@ -15,7 +15,7 @@ namespace Api.Models.Post
     {
         public Guid? AuthorId { get; set; }
         public string? Description { get; set; }
-        public List<AttachExternalModel> Contents { get; set; } = new List<AttachExternalModel>();
+        public List<MetadataModel> Contents { get; set; } = new List<MetadataModel>();
 
     }
 }

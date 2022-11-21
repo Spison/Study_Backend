@@ -21,4 +21,13 @@
             Model = "Post";
         }
     }
+    public class CommentsNotFoundException:NotFoundException
+    {
+        public CommentsNotFoundException()
+        {
+            Model = "Comment";
+        }
+
+    }
+       
 }

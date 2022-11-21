@@ -34,5 +34,6 @@ namespace DataAccessLayer
         public DbSet<Avatar> Avatars => Set<Avatar>();
         public DbSet<Post> Posts => Set<Post>();
         public DbSet<PostContent> PostContents => Set<PostContent>();
+        public DbSet<Comment> Comments => Set<Comment>();
     }
 }

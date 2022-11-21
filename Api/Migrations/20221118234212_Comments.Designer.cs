@@ -3,6 +3,7 @@ using System;
 using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221118234212_Comments")]
+    partial class Comments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,7 +80,7 @@ namespace Api.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comment", (string)null);
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.Post", b =>
@@ -205,7 +207,7 @@ namespace Api.Migrations
                         .IsRequired();
 
                     b.HasOne("DataAccessLayer.Entities.Post", null)
-                        .WithMany("Comments")
+                        .WithMany("Comment")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -271,7 +273,7 @@ namespace Api.Migrations
 
             modelBuilder.Entity("DataAccessLayer.Entities.Post", b =>
                 {
-                    b.Navigation("Comments");
+                    b.Navigation("Comment");
 
                     b.Navigation("PostContents");
                 });

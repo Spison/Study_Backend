@@ -2,6 +2,7 @@
 using Api.Models.Attach;
 using Api.Models.Post;
 using Api.Models.User;
+using Api.Models.Comment;
 using AutoMapper;
 using Common;
 using DataAccessLayer.Entities;
@@ -27,7 +28,6 @@ namespace Api.Mapper
             CreateMap<Post, PostModel>()
                 .ForMember(d => d.Contents, m => m.MapFrom(d => d.PostContents))
                 ;
-
             CreateMap<PostContent, AttachModel>();
             CreateMap<PostContent, AttachExternalModel>().AfterMap<PostContentMapperAction>();
 
@@ -38,6 +38,13 @@ namespace Api.Mapper
                 .ForMember(d => d.PostContents, m => m.MapFrom(s => s.Contents))
                 .ForMember(d => d.Created, m => m.MapFrom(s => DateTime.UtcNow));
 
+            
+            CreateMap<CreateCommentRequest,CreateCommentModel>();
+            CreateMap<Comment, CommentModel>();
+            CreateMap<CreateCommentModel,Comment>()
+                .ForMember(d=>d.AuthorId,m=>m.MapFrom(s=>s.AuthorId))
+                .ForMember(d=>d.Created,m => m.MapFrom(s=>DateTime.UtcNow))
+                ;
 
 
         }
