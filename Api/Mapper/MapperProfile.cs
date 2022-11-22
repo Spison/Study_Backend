@@ -29,7 +29,10 @@ namespace Api.Mapper
             CreateMap<Avatar, AttachModel>();
             CreateMap<Post, PostModel>()
                 .ForMember(d => d.Contents, m => m.MapFrom(d => d.PostContents))
+                .ForMember(d=>d.VisibleToSubscribersOnly, m => m.MapFrom(d=>d.VisibleToSubscribersOnly))
                 ;
+            CreateMap<PostModel, Post>()
+                .ForMember(d => d.VisibleToSubscribersOnly, m => m.MapFrom(d => d.VisibleToSubscribersOnly));
             CreateMap<PostContent, AttachModel>();
             CreateMap<PostContent, AttachExternalModel>().AfterMap<PostContentMapperAction>();
 

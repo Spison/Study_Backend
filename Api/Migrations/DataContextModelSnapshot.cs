@@ -50,7 +50,7 @@ namespace Api.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Attaches");
+                    b.ToTable("Attaches", (string)null);
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.Comment", b =>
@@ -78,7 +78,7 @@ namespace Api.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.LikeComment", b =>
@@ -95,7 +95,7 @@ namespace Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LikeComments");
+                    b.ToTable("LikeComments", (string)null);
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.LikePost", b =>
@@ -115,7 +115,7 @@ namespace Api.Migrations
                     b.HasIndex("PostId")
                         .IsUnique();
 
-                    b.ToTable("LikesPost");
+                    b.ToTable("LikesPost", (string)null);
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.Post", b =>
@@ -140,7 +140,7 @@ namespace Api.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.Subscribe", b =>
@@ -159,7 +159,7 @@ namespace Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Subscribes");
+                    b.ToTable("Subscribes", (string)null);
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.User", b =>
@@ -191,7 +191,7 @@ namespace Api.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.UserSession", b =>
@@ -216,7 +216,7 @@ namespace Api.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserSessions");
+                    b.ToTable("UserSessions", (string)null);
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.Avatar", b =>

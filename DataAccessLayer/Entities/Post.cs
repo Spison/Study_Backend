@@ -14,7 +14,7 @@ namespace DataAccessLayer.Entities
         public virtual User Author { get; set; } = null!;
         public DateTimeOffset Created { get; set; }
         public virtual LikePost? Like { get; set; }
-        public virtual bool VisibleToSubscribersOnly { get; set; }= false;
+        public virtual bool VisibleToSubscribersOnly { get; set; }
 
         public virtual ICollection<PostContent>? PostContents { get; set; }
         public virtual ICollection<Comment>? Comments { get; set; }

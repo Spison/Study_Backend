@@ -32,6 +32,9 @@ namespace Api.Controllers
         public async Task<List<PostModel>> GetPosts(int skip = 0, int take = 10)
             => await _postService.GetPosts(skip, take);
         [HttpGet]
+        public async Task<List<PostModel>> GetPostsWithSubsPosts( Guid userId,int skip = 0, int take = 10)
+            => await _postService.GetSubscriptionsPosts(skip, take, userId);
+        [HttpGet]
         public async Task<PostModel> GetPostById(Guid id)
             => await _postService.GetPostById(id);
 

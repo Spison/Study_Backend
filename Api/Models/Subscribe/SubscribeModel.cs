@@ -4,8 +4,8 @@ namespace Api.Models.Subscribe
 {
     public class SubscribeModel
     {
-        public Guid UserId { get; set; }
-        public Guid SubId { get; set; }
+        public Guid UserId { get; set; }//Кто подписан
+        public Guid SubId { get; set; }//На кого подписан
     }
     public class Subs
     {
