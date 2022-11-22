@@ -13,6 +13,7 @@ namespace DataAccessLayer.Entities
         public Guid AuthorId { get; set; }
         public virtual User Author { get; set; } = null!;
         public DateTimeOffset Created { get; set; }
+        public virtual LikePost? Like { get; set; }
 
         public virtual ICollection<PostContent>? PostContents { get; set; }
         public virtual ICollection<Comment>? Comments { get; set; }

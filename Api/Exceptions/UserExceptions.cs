@@ -27,7 +27,13 @@
         {
             Model = "Comment";
         }
-
     }
-       
+    public class LikesNotFoundException : NotFoundException
+    {
+        public LikesNotFoundException()
+        {
+            Model = "Like";
+        }
+    }
+
 }

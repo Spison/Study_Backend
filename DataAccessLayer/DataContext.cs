@@ -35,5 +35,7 @@ namespace DataAccessLayer
         public DbSet<Post> Posts => Set<Post>();
         public DbSet<PostContent> PostContents => Set<PostContent>();
         public DbSet<Comment> Comments => Set<Comment>();
+        public DbSet<LikePost>LikesPost => Set<LikePost>();
+        public DbSet<LikeComment> LikeComments => Set<LikeComment>();
     }
 }

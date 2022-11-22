@@ -2,7 +2,9 @@
 using Api.Models.Attach;
 using Api.Models.Post;
 using Api.Models.Comment;
+using Api.Models.Like;
 using Api.Services;
+using Api.Exceptions;
 using Common.Extentions;
 using DataAccessLayer.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -58,11 +60,29 @@ namespace Api.Controllers
             await _postService.CreateComment(request);
         }
         [HttpGet]
-        public async Task<List<CommentModel>> GetComments(Guid postId) 
+        public async Task<List<CommentModel>> GetComments(Guid postId)
             => await _postService.GetComments(postId);
-        //[HttpGet]
-        //public async Task<List<CommentModel>> GetComment(Guid postId)
-        //    => await _postService.GetComment(postId);
+
+        [HttpPost]
+        public async Task AddLike(LikePostModel model)
+        {
+            if (model.PostId == null)
+                throw new PostNotFoundException();
+            if (model.UserId == null)
+                throw new UserNotFoundException();
+            await _postService.AddLikeToPost(model.PostId, model.UserId);
+        }
+        [HttpPost]
+        public async Task DeleteLike(Guid postId,Guid userId)
+        {
+            await _postService.DelUserLikeAtPost(postId, userId);
+        }
+        [HttpGet]
+        public async Task<int> GetCountLikesAtPost(Guid postId)
+            => await _postService.GetCountLikesAtPost(postId);
+        [HttpGet]
+        public async Task<List<LikePostModelRequest>> GetUsersWhoLikesPost(Guid postId)
+            => await _postService.GetUsersWhoLikesAtPost(postId);
 
     }
 }

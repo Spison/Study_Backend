@@ -3,6 +3,7 @@ using Api.Models.Attach;
 using Api.Models.Post;
 using Api.Models.User;
 using Api.Models.Comment;
+using Api.Models.Like;
 using AutoMapper;
 using Common;
 using DataAccessLayer.Entities;
@@ -45,6 +46,17 @@ namespace Api.Mapper
                 .ForMember(d=>d.AuthorId,m=>m.MapFrom(s=>s.AuthorId))
                 .ForMember(d=>d.Created,m => m.MapFrom(s=>DateTime.UtcNow))
                 ;
+
+            CreateMap<LikePostModel, LikePost>()
+                .ForMember(d => d.UserId, m => m.MapFrom(s => s.UserId))
+                .ForMember(d => d.PostId, m => m.MapFrom(s => s.PostId))
+                ;
+            //Потом добавить маппинг для коммента
+            //CreateMap<LikeCommentModel, LikePost>()
+            //    .ForMember(d => d.UserId, m => m.MapFrom(s => s.UserId))
+            //    .ForMember(d => d.PostId, m => m.MapFrom(s => s.PostId))
+            //    ;
+
 
 
         }

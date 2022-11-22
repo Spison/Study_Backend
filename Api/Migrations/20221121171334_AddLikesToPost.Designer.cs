@@ -3,6 +3,7 @@ using System;
 using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221121171334_AddLikesToPost")]
+    partial class AddLikesToPost
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,23 +83,6 @@ namespace Api.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.LikeComment", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("CommentId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LikeComments");
-                });
-
             modelBuilder.Entity("DataAccessLayer.Entities.LikePost", b =>
                 {
                     b.Property<Guid>("Id")
@@ -112,10 +97,11 @@ namespace Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PostId")
-                        .IsUnique();
+                    b.HasIndex("PostId");
 
-                    b.ToTable("LikesPost");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("LikesPosts");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.Post", b =>
@@ -126,6 +112,9 @@ namespace Api.Migrations
 
                     b.Property<Guid>("AuthorId")
                         .HasColumnType("uuid");
+
+                    b.Property<int>("CountLikes")
+                        .HasColumnType("integer");
 
                     b.Property<DateTimeOffset>("Created")
                         .HasColumnType("timestamp with time zone");
@@ -252,11 +241,21 @@ namespace Api.Migrations
 
             modelBuilder.Entity("DataAccessLayer.Entities.LikePost", b =>
                 {
-                    b.HasOne("DataAccessLayer.Entities.Post", null)
-                        .WithOne("Like")
-                        .HasForeignKey("DataAccessLayer.Entities.LikePost", "PostId")
+                    b.HasOne("DataAccessLayer.Entities.Post", "Post")
+                        .WithMany("LikePosts")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("DataAccessLayer.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.Post", b =>
@@ -319,8 +318,7 @@ namespace Api.Migrations
                 {
                     b.Navigation("Comments");
 
-                    b.Navigation("Like")
-                        .IsRequired();
+                    b.Navigation("LikePosts");
 
                     b.Navigation("PostContents");
                 });
