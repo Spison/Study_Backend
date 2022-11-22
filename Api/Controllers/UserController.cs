@@ -2,6 +2,7 @@
 using Api.Exceptions;
 using Api.Models.Attach;
 using Api.Models.User;
+using Api.Models.Subscribe;
 using Api.Services;
 using Common.Extentions;
 using Microsoft.AspNetCore.Authorization;
@@ -75,6 +76,22 @@ namespace Api.Controllers
         public async Task<UserAvatarModel> GetUserById(Guid userId)
         {
             return await _userService.GetUser(userId);
+        }
+        [HttpPost]
+        public async Task AddSubscribe(SubscribeModel model)
+        {
+            await _userService.AddSubscribe(model);
+        }
+        [HttpPost]
+        public async Task DelSubscribe(SubscribeModel model)
+        {
+            await _userService.DelSubscribe(model);
+        }
+        [HttpGet]
+        public async Task<List<Subs>> GetSubscribersId(Guid mainId)
+        {
+            return await _userService.GetSubscribers(mainId);
+
         }
     }
 }

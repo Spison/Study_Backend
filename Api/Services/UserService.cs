@@ -2,6 +2,7 @@
 using Api.Exceptions;
 using Api.Models.Attach;
 using Api.Models.User;
+using Api.Models.Subscribe;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Common;
@@ -90,6 +91,38 @@ namespace Api.Services
             if (user == null || user == default)
                 throw new UserNotFoundException();
             return user;
+        }
+        public async Task AddSubscribe (SubscribeModel model) // Подписаться на что-то
+        {
+            var dbSub = _mapper.Map<DataAccessLayer.Entities.Subscribe>(model);
+            var t = await _context.Subscribes.AddAsync(dbSub);
+            await _context.SaveChangesAsync();
+        }
+        public async Task DelSubscribe (SubscribeModel model)
+        {
+            var dbSub = _mapper.Map<DataAccessLayer.Entities.Subscribe>(model);
+            if(dbSub != null)
+            {
+                _context.Subscribes.Remove(dbSub);
+                await _context.SaveChangesAsync();
+            }
+        }
+        public async Task<List<Subs>> GetSubscribers (Guid mainId)
+        {           
+            var res = await _context.Subscribes
+                .Where(x=>x.Id!=default)
+                .Where(x=>x.SubId == mainId)
+                .ToListAsync();
+            if (res== null)
+                throw new SubscribersNotFoundException();            
+            var list = new List<Subs>();
+            foreach (var item in res)
+            {
+                var model = _mapper.Map<Api.Models.Subscribe.SubscribeModel>(item);//По идее можно объединить...
+                var model2 = _mapper.Map<Api.Models.Subscribe.Subs>(model);
+                list.Add(model2);
+            }
+            return list;
         }
     }
 }

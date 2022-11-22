@@ -18,5 +18,6 @@ namespace DataAccessLayer.Entities
         public virtual Avatar? Avatar { get; set; }
         public virtual ICollection<UserSession>? Sessions { get; set; }
         public virtual ICollection<Post>? Posts { get; set; }
+        public virtual ICollection<Subscribe>? Subscribe { get; set; }//Сюда записываем чисто подписки 
     }
 }

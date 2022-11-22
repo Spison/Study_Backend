@@ -35,5 +35,11 @@
             Model = "Like";
         }
     }
-
+    public class SubscribersNotFoundException : NotFoundException
+    {
+        public SubscribersNotFoundException()
+        {
+            Model = "Subscribers";
+        }
+    }
 }

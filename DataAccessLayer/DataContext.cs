@@ -37,5 +37,6 @@ namespace DataAccessLayer
         public DbSet<Comment> Comments => Set<Comment>();
         public DbSet<LikePost>LikesPost => Set<LikePost>();
         public DbSet<LikeComment> LikeComments => Set<LikeComment>();
+        public DbSet<Subscribe> Subscribes => Set<Subscribe>();
     }
 }

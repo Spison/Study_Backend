@@ -66,9 +66,9 @@ namespace Api.Controllers
         [HttpPost]
         public async Task AddLike(LikePostModel model)
         {
-            if (model.PostId == null)
+            if (model.PostId == default)
                 throw new PostNotFoundException();
-            if (model.UserId == null)
+            if (model.UserId == default)
                 throw new UserNotFoundException();
             await _postService.AddLikeToPost(model.PostId, model.UserId);
         }

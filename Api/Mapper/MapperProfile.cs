@@ -4,6 +4,7 @@ using Api.Models.Post;
 using Api.Models.User;
 using Api.Models.Comment;
 using Api.Models.Like;
+using Api.Models.Subscribe;
 using AutoMapper;
 using Common;
 using DataAccessLayer.Entities;
@@ -56,7 +57,15 @@ namespace Api.Mapper
             //    .ForMember(d => d.UserId, m => m.MapFrom(s => s.UserId))
             //    .ForMember(d => d.PostId, m => m.MapFrom(s => s.PostId))
             //    ;
-
+            CreateMap<SubscribeModel, Subscribe>()
+                .ForMember(d => d.Id, m => m.MapFrom(s => Guid.NewGuid()))
+                ;
+            CreateMap<Subscribe, SubscribeModel>()
+                .ForMember(d => d.SubId, m => m.MapFrom(m => m.SubId))
+                .ForMember(d => d.UserId, m => m.MapFrom(m => m.UserId))
+                ;
+            CreateMap<SubscribeModel, Subs>()
+                .ForMember(d => d.UserId, m => m.MapFrom(s => s.SubId));
 
 
         }
