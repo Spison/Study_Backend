@@ -25,12 +25,13 @@ namespace Api.Services
             _context = context;
         }
 
-        public async Task CreatePost(CreatePostRequest request)
+        public async Task CreatePost(CreatePostRequest request,Guid authorId)
         {
             var model = _mapper.Map<CreatePostModel>(request);
+            model.AuthorId = authorId;
             model.Contents.ForEach(x =>
             {
-                x.AuthorId = model.AuthorId;
+                x.AuthorId = authorId;
                 x.FilePath = Path.Combine(
                     Directory.GetCurrentDirectory(),
                     "attaches",

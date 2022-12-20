@@ -41,14 +41,8 @@ namespace Api.Controllers
         [HttpPost]
         public async Task CreatePost(CreatePostRequest request)
         {
-            if (!request.AuthorId.HasValue)
-            {
-                var userId = User.GetClaimValue<Guid>(ClaimNames.Id);
-                if (userId == default)
-                    throw new Exception("not authorize");
-                request.AuthorId = userId;
-            }
-            await _postService.CreatePost(request);
+            var userId = User.GetClaimValue<Guid>(ClaimNames.Id);
+            await _postService.CreatePost(request,userId);
         }
         [HttpPost]
         public async Task CreateComment(CreateCommentRequest request)
